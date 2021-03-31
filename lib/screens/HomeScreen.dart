@@ -20,6 +20,14 @@ class HomeScreen extends StatelessWidget
   }
 
   Widget _buildNotesList () {
+    var allNotes = collection.allNotes;
+
+    if(allNotes.length == 0) {
+      return Center(
+        child: Text('No Notes'),
+      );
+    }
+
     return ListView.builder(
       itemCount: collection.count,
       itemBuilder: (context, index) {
