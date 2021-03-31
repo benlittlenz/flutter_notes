@@ -7,5 +7,9 @@ class NoteCollection
     Note(id: '2', body: 'Second Note'),
   ];
 
+  get count {
+    return _notes.length;
+  }
+
   get allNotes => _notes;
 }
