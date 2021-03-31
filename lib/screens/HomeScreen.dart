@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider_notes/models/Note.dart';
+
+import 'package:uuid/uuid.dart';
 
 //import 'package:/flutter/widgets.dart';
 //import 'package:flutter/material.dart';
@@ -6,6 +9,7 @@ import 'package:provider_notes/providers/NoteCollection.dart';
 
 class HomeScreen extends StatelessWidget
 {
+  var uuid = Uuid();
   var collection = NoteCollection();
 
   @override
@@ -15,7 +19,18 @@ class HomeScreen extends StatelessWidget
       appBar: AppBar(
         title: Text('Notes')
       ),
-      body: _buildNotesList()
+      body: _buildNotesList(),
+
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          Note note = Note(
+            id: uuid.v4(),
+          );
+
+          debugPrint(note.id.toString());
+        },
+      ),
     );
   }
 
