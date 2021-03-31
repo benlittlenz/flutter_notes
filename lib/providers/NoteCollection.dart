@@ -1,6 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:provider_notes/models/Note.dart';
 
-class NoteCollection
+class NoteCollection extends ChangeNotifier
 {
   final List<Note> _notes = [
     Note(id: '1', body: 'First Note'),
