@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:provider_notes/models/Note.dart';
 
 import 'package:uuid/uuid.dart';
@@ -7,20 +8,15 @@ import 'package:uuid/uuid.dart';
 //import 'package:flutter/material.dart';
 import 'package:provider_notes/providers/NoteCollection.dart';
 
-class HomeScreen extends StatelessWidget
-{
+class HomeScreen extends StatelessWidget {
   var uuid = Uuid();
   var collection = NoteCollection();
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Notes')
-      ),
+      appBar: AppBar(title: Text('Notes')),
       body: _buildNotesList(),
-
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
@@ -28,30 +24,31 @@ class HomeScreen extends StatelessWidget
             id: uuid.v4(),
           );
 
-          debugPrint(note.id.toString());
+          Provider.of<NoteCollection>(context, listen: false).addNote(note);
         },
       ),
     );
   }
 
-  Widget _buildNotesList () {
-    var allNotes = collection.allNotes;
+  Widget _buildNotesList() {
+    return Consumer<NoteCollection>(builder: (context, notes, child) {
+      var allNotes = notes.allNotes;
 
-    if(allNotes.length == 0) {
-      return Center(
-        child: Text('No Notes'),
-      );
-    }
-
-    return ListView.builder(
-      itemCount: collection.count,
-      itemBuilder: (context, index) {
-        var note = collection.allNotes[index];
-
-        return ListTile(
-          title: Text(note.body),
+      if (allNotes.length == 0) {
+        return Center(
+          child: Text('No Notes'),
         );
       }
-    );
+
+      return ListView.builder(
+          itemCount: notes.count,
+          itemBuilder: (context, index) {
+            var note = notes.allNotes[index];
+
+            return ListTile(
+              title: Text(note.body),
+            );
+          });
+    });
   }
 }

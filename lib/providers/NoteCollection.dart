@@ -3,14 +3,17 @@ import 'package:provider_notes/models/Note.dart';
 
 class NoteCollection extends ChangeNotifier
 {
-  final List<Note> _notes = [
-    Note(id: '1', body: 'First Note'),
-    Note(id: '2', body: 'Second Note'),
-  ];
+  final List<Note> _notes = [];
 
   get count {
     return _notes.length;
   }
 
   get allNotes => _notes;
+
+  void addNote (Note note) {
+    _notes.add(note);
+
+    notifyListeners();
+  }
 }
