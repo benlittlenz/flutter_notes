@@ -11,6 +11,10 @@ class NoteCollection extends ChangeNotifier
 
   get allNotes => _notes;
 
+  Note getNote (String id) {
+    return _notes.where((note) => note.id == id).first;
+  }
+
   void addNote (Note note) {
     _notes.add(note);
 
@@ -21,6 +25,7 @@ class NoteCollection extends ChangeNotifier
     var currentNote = _notes.where((note) => note.id == id).first;
 
     currentNote.body = body;
+
     notifyListeners();
   }
 }

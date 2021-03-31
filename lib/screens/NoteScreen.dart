@@ -23,14 +23,13 @@ class NoteScreenState extends State<NoteScreen> {
 
   void initState() {
     super.initState();
-
     bodyController.text = _note.body;
 
     bodyController.addListener(() {
-      Provider.of<NoteCollection>(context).updateNote(
+      Provider.of<NoteCollection>(context, listen: false).updateNote(
         _note.id,
-        _note.body
-      )
+        bodyController.text
+      );
     });
   }
 
@@ -38,7 +37,14 @@ class NoteScreenState extends State<NoteScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(_note.body),
+          title: Consumer<NoteCollection>(
+            builder: (context, notes, child) {
+              debugPrint(notes.getNote(_note.id).body);
+              return Text(
+                notes.getNote(_note.id).body
+              );
+            }
+            ),
         ),
         body: Column(children: <Widget>[
           Expanded(
