@@ -24,6 +24,24 @@ class NoteScreenState extends State<NoteScreen> {
       appBar: AppBar(
         title: Text(_note.body),
       ),
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            child: Container(
+              child: TextField(
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
+                expands: true,
+                decoration: InputDecoration(
+                  hintText: "Start writing your note here",
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.all(20)
+                )
+              )
+            )
+          )
+        ]
+      )
     );
   }
 }
