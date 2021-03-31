@@ -7,6 +7,7 @@ import 'package:uuid/uuid.dart';
 //import 'package:/flutter/widgets.dart';
 //import 'package:flutter/material.dart';
 import 'package:provider_notes/providers/NoteCollection.dart';
+import 'package:provider_notes/screens/NoteScreen.dart';
 
 class HomeScreen extends StatelessWidget {
   var uuid = Uuid();
@@ -25,6 +26,14 @@ class HomeScreen extends StatelessWidget {
           );
 
           Provider.of<NoteCollection>(context, listen: false).addNote(note);
+
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => NoteScreen(
+                note: note
+              )
+            )
+          );
         },
       ),
     );
