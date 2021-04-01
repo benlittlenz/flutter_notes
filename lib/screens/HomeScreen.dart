@@ -16,14 +16,17 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Consumer<NoteCollection>(
+      appBar: AppBar(title: Consumer<NoteCollection>(
         builder: (context, notes, child) {
           return Text('Notes (${notes.count})');
         },
-        )
+      )),
+      //body: _buildNotesList(),
+      body: Column(
+        children: [
+          titleSection
+        ],
       ),
-      body: _buildNotesList(),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
@@ -34,16 +37,45 @@ class HomeScreen extends StatelessWidget {
           Provider.of<NoteCollection>(context, listen: false).addNote(note);
 
           Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => NoteScreen(
-                note: note
-              )
-            )
-          );
+              MaterialPageRoute(builder: (context) => NoteScreen(note: note)));
         },
       ),
     );
   }
+
+  Widget titleSection = Container(
+      padding: const EdgeInsets.all(32),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Text(
+                    'Oeschinen Lake Campground',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Text(
+                  'Kandersteg, Switzerland',
+                  style: TextStyle(
+                    color: Colors.grey[500],
+                  ),
+                )
+              ],
+            ),
+          ),
+          Icon(
+            Icons.star,
+            color: Colors.red[500],
+          ),
+          Text('41')
+        ],
+      ));
 
   Widget _buildNotesList() {
     return Consumer<NoteCollection>(builder: (context, notes, child) {
@@ -61,55 +93,47 @@ class HomeScreen extends StatelessWidget {
             var note = notes.allNotes[index];
 
             return Dismissible(
-              key: Key(note.id),
-              background: Container(
-                color: Colors.red,
-                child: Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: Row(
-                    children: <Widget>[
-                      Icon(Icons.delete, color: Colors.white),
-                      Text("Move to trash", style: TextStyle(color: Colors.white))
-                    ],
-                  )
-                )
-              ),
-              confirmDismiss: (direction) async {
-                return await showDialog(
-                  context: context, builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Text("Delete Confirmation"),
-                      content: const Text("Are you sure you want to delete this note?"),
-                      actions: <Widget>[
-                        TextButton(
-                          onPressed: () => Navigator.of(context).pop(true),
-                          child: const Text("Delete")
-                        ),
-                        TextButton(
-                          onPressed: () => Navigator.of(context).pop(false),
-                          child: const Text("Cancel")
-                        ),
-                      ]
-                    );
-                  }
-                  );
-              },
-              onDismissed: (direction) {
-                Provider.of<NoteCollection>(context).deleteNote(note);
-              },
-              child: ListTile(
-              title: Text(note.body),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => NoteScreen(
-                      note: note
-                    )
-                )
-                );
-                }
-              )
-            );
+                key: Key(note.id),
+                background: Container(
+                    color: Colors.red,
+                    child: Padding(
+                        padding: const EdgeInsets.all(15),
+                        child: Row(
+                          children: <Widget>[
+                            Icon(Icons.delete, color: Colors.white),
+                            Text("Move to trash",
+                                style: TextStyle(color: Colors.white))
+                          ],
+                        ))),
+                confirmDismiss: (direction) async {
+                  return await showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                            title: const Text("Delete Confirmation"),
+                            content: const Text(
+                                "Are you sure you want to delete this note?"),
+                            actions: <Widget>[
+                              TextButton(
+                                  onPressed: () =>
+                                      Navigator.of(context).pop(true),
+                                  child: const Text("Delete")),
+                              TextButton(
+                                  onPressed: () =>
+                                      Navigator.of(context).pop(false),
+                                  child: const Text("Cancel")),
+                            ]);
+                      });
+                },
+                onDismissed: (direction) {
+                  Provider.of<NoteCollection>(context).deleteNote(note);
+                },
+                child: ListTile(
+                    title: Text(note.body),
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => NoteScreen(note: note)));
+                    }));
           });
     });
   }
