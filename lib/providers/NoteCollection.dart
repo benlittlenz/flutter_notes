@@ -28,4 +28,10 @@ class NoteCollection extends ChangeNotifier
 
     notifyListeners();
   }
+
+  void deleteNote(String id) {
+    _notes.removeWhere((note) => note.id == id);
+
+    notifyListeners();
+  }
 }

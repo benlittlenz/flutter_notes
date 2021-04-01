@@ -62,6 +62,12 @@ class HomeScreen extends StatelessWidget {
 
             return Dismissible(
               key: Key(note.id),
+              onDismissed: (direction) {
+                Provider.of<NoteCollection>(context).deleteNote(note);
+              },
+              background: Container(
+                color: Colors.red,
+              ),
               child: ListTile(
               title: Text(note.body),
               onTap: () {
