@@ -24,7 +24,8 @@ class HomeScreen extends StatelessWidget {
       //body: _buildNotesList(),
       body: Column(
         children: [
-          titleSection
+          titleSection,
+          buttonSection
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -44,38 +45,52 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget titleSection = Container(
-      padding: const EdgeInsets.all(32),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: Text(
-                    'Oeschinen Lake Campground',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
+    padding: const EdgeInsets.all(32),
+    child: Row(
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Text(
+                  'Oeschinen Lake Campground',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                Text(
-                  'Kandersteg, Switzerland',
-                  style: TextStyle(
-                    color: Colors.grey[500],
-                  ),
-                )
-              ],
-            ),
+              ),
+              Text(
+                'Kandersteg, Switzerland',
+                style: TextStyle(
+                  color: Colors.grey[500],
+                ),
+              )
+            ],
           ),
-          Icon(
-            Icons.star,
-            color: Colors.red[500],
-          ),
-          Text('41')
-        ],
-      ));
+        ),
+        Icon(
+          Icons.star,
+          color: Colors.red[500],
+        ),
+        Text('41')
+      ],
+    ),
+  );
+
+  //Color color = Theme.of(context).primaryColor;
+
+  Widget buttonSection = Container(
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        _buildButtonColumn(Colors.blue, Icons.call, 'CALL'),
+        _buildButtonColumn(Colors.blue, Icons.near_me, 'ROUTE'),
+        _buildButtonColumn(Colors.blue, Icons.share, 'SHARE'),
+      ],
+    ),
+  );
 
   Widget _buildNotesList() {
     return Consumer<NoteCollection>(builder: (context, notes, child) {
@@ -137,4 +152,22 @@ class HomeScreen extends StatelessWidget {
           });
     });
   }
+}
+
+Column _buildButtonColumn(Color color, IconData icon, String label) {
+  return Column(
+    mainAxisSize: MainAxisSize.min,
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Icon(icon, color: color),
+      Container(
+        margin: const EdgeInsets.only(top: 8),
+        child: Text(
+          label,
+          style: TextStyle(
+              fontSize: 12, fontWeight: FontWeight.w400, color: color),
+        ),
+      ),
+    ],
+  );
 }
