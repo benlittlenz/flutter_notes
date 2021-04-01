@@ -16,7 +16,13 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Notes')),
+      appBar: AppBar(
+        title: Consumer<NoteCollection>(
+        builder: (context, notes, child) {
+          return Text('Notes (${notes.count})');
+        },
+        )
+      ),
       body: _buildNotesList(),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
