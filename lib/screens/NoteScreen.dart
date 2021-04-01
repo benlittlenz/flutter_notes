@@ -39,9 +39,8 @@ class NoteScreenState extends State<NoteScreen> {
         appBar: AppBar(
           title: Consumer<NoteCollection>(
             builder: (context, notes, child) {
-              debugPrint(notes.getNote(_note.id).body);
               return Text(
-                notes.getNote(_note.id).body
+                notes.getNote(_note.id).noteBody
               );
             }
             ),

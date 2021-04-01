@@ -56,6 +56,15 @@ class HomeScreen extends StatelessWidget {
 
             return ListTile(
               title: Text(note.body),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => NoteScreen(
+                      note: note
+                    )
+                )
+                );
+              }
             );
           });
     });
