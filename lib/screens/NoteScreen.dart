@@ -26,10 +26,8 @@ class NoteScreenState extends State<NoteScreen> {
     bodyController.text = _note.body;
 
     bodyController.addListener(() {
-      Provider.of<NoteCollection>(context, listen: false).updateNote(
-        _note.id,
-        bodyController.text
-      );
+      Provider.of<NoteCollection>(context, listen: false)
+          .updateNote(_note.id, bodyController.text);
     });
   }
 
@@ -37,26 +35,52 @@ class NoteScreenState extends State<NoteScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Consumer<NoteCollection>(
-            builder: (context, notes, child) {
-              return Text(
-                notes.getNote(_note.id).noteBody
-              );
-            }
-            ),
+          title: Consumer<NoteCollection>(builder: (context, notes, child) {
+            return Text(notes.getNote(_note.id).noteBody);
+          }),
         ),
         body: Column(children: <Widget>[
           Expanded(
-              child: Container(
-                  child: TextField(
+            child: Container(
+                child: TextField(
                     controller: bodyController,
-                      keyboardType: TextInputType.multiline,
-                      maxLines: null,
-                      expands: true,
-                      decoration: InputDecoration(
-                          hintText: "Start writing your note here",
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.all(20)))))
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    expands: true,
+                    decoration: InputDecoration(
+                        hintText: "Start writing your note here",
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.all(20)))),
+          ),
+          ConstrainedBox(
+            constraints: BoxConstraints(minWidth: double.infinity),
+            child: Container(
+                child: Consumer<NoteCollection>(
+                  builder: (context, notes, child) {
+                    Note note = notes.getNote(_note.id);
+
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          '${note.characters} characters',
+                          style: TextStyle(
+                            color: Colors.white
+                          )
+                        ),
+                        Text(
+                          '${note.words} words',
+                          style: TextStyle(
+                            color: Colors.white
+                          )
+                        )
+                      ],
+                    );
+                  }
+                ),
+                decoration: BoxDecoration(color: Colors.blue),
+                padding: EdgeInsets.all(20)),
+          )
         ]));
   }
 }
