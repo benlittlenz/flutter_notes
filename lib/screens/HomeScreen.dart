@@ -60,7 +60,9 @@ class HomeScreen extends StatelessWidget {
           itemBuilder: (context, index) {
             var note = notes.allNotes[index];
 
-            return ListTile(
+            return Dismissible(
+              key: Key(note.id),
+              child: ListTile(
               title: Text(note.body),
               onTap: () {
                 Navigator.of(context).push(
@@ -70,7 +72,8 @@ class HomeScreen extends StatelessWidget {
                     )
                 )
                 );
-              }
+                }
+              )
             );
           });
     });
