@@ -62,6 +62,18 @@ class HomeScreen extends StatelessWidget {
 
             return Dismissible(
               key: Key(note.id),
+              background: Container(
+                color: Colors.red,
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Row(
+                    children: <Widget>[
+                      Icon(Icons.delete, color: Colors.white),
+                      Text("Move to trash", style: TextStyle(color: Colors.white))
+                    ],
+                  )
+                )
+              ),
               confirmDismiss: (direction) async {
                 return await showDialog(
                   context: context, builder: (BuildContext context) {
@@ -85,9 +97,6 @@ class HomeScreen extends StatelessWidget {
               onDismissed: (direction) {
                 Provider.of<NoteCollection>(context).deleteNote(note);
               },
-              background: Container(
-                color: Colors.red,
-              ),
               child: ListTile(
               title: Text(note.body),
               onTap: () {
